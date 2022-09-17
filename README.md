@@ -43,5 +43,39 @@ WHERE order_status = 'order finished' AND year(order_date) in ('2011', '2012')
 GROUP BY years, product_sub_category
 ORDER BY years, sales DESC;
 
+## Promotion Effectiveness and Efficiency by Years
+Buatkan Derived Tables untuk menghitung total sales (sales) dan total discount (promotion_value) berdasarkan tahun(years) dan formulasikan persentase burn rate nya (burn_rate_percentage).
+SELECT 
+year(order_date) as years,
+sum(sales) as sales,
+sum(discount_value) as promotion_value,
+round(sum(discount_value)/sum(sales)*100,2) as burn_rate_percentage
+FROM dqlab_sales_store
+WHERE order_status = 'order finished'
+GROUP BY years
+ORDER BY years ASC;
+
+## Promotion Effectiveness and Efficiency by Product Sub Category
+SELECT 
+year(order_date) as years,
+product_sub_category,
+product_category,
+sum(sales) as sales,
+sum(discount_value) as promotion_value,
+round(sum(discount_value)/sum(sales)*100,2) as burn_rate_percentage
+FROM dqlab_sales_store
+WHERE year(order_date) = '2012' AND order_status = 'order finished'
+GROUP BY year(order_date),product_sub_category,product_category
+ORDER BY sales DESC;
+
+## Customers Transactions per Year
+SELECT 
+year(order_date) as years,
+COUNT(DISTINCT customer) as number_of_customer
+FROM dqlab_sales_store
+WHERE order_status = 'order finished'
+GROUP BY years
+ORDER BY years ASC;
+
 https://renal-andhy.medium.com/project-data-analysis-for-retail-sales-performance-report-a6f064e4fb0f
 
