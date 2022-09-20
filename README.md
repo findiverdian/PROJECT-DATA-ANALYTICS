@@ -29,53 +29,85 @@ Setelah melihat hasil analisa di Sub Bab 1 dan 2, selanjutnya dilakukan analisa 
 
 ## Overall Performance by Year
 Buatlah Query dengan menggunakan SQL untuk mendapatkan total penjualan (sales) dan jumlah order (number_of_order) dari tahun 2009 sampai 2012 (years). 
+
 SELECT year(order_date) AS years, SUM(sales) AS sales, COUNT(order_id) AS number_of_order
+
 FROM dqlab_sales_store
+
 WHERE order_status = 'order finished'
+
 GROUP BY years
+
 ORDER BY years ASC;
 
 ## Overall Performance by Product Sub Category
 Buatlah Query dengan menggunakan SQL untuk mendapatkan total penjualan (sales) berdasarkan sub category dari produk (product_sub_category) pada tahun 2011 dan 2012 saja (years) 
+
 SELECT year(order_date) AS years, product_sub_category, SUM(sales) AS sales
+
 FROM dqlab_sales_store
+
 WHERE order_status = 'order finished' AND year(order_date) in ('2011', '2012')
+
 GROUP BY years, product_sub_category
+
 ORDER BY years, sales DESC;
 
 ## Promotion Effectiveness and Efficiency by Years
 Buatkan Derived Tables untuk menghitung total sales (sales) dan total discount (promotion_value) berdasarkan tahun(years) dan formulasikan persentase burn rate nya (burn_rate_percentage).
 SELECT 
+
 year(order_date) as years,
+
 sum(sales) as sales,
+
 sum(discount_value) as promotion_value,
+
 round(sum(discount_value)/sum(sales)*100,2) as burn_rate_percentage
+
 FROM dqlab_sales_store
+
 WHERE order_status = 'order finished'
+
 GROUP BY years
+
 ORDER BY years ASC;
 
 ## Promotion Effectiveness and Efficiency by Product Sub Category
 SELECT 
+
 year(order_date) as years,
+
 product_sub_category,
+
 product_category,
+
 sum(sales) as sales,
+
 sum(discount_value) as promotion_value,
+
 round(sum(discount_value)/sum(sales)*100,2) as burn_rate_percentage
+
 FROM dqlab_sales_store
+
 WHERE year(order_date) = '2012' AND order_status = 'order finished'
+
 GROUP BY year(order_date),product_sub_category,product_category
+
 ORDER BY sales DESC;
 
 ## Customers Transactions per Year
 SELECT 
-year(order_date) as years,
-COUNT(DISTINCT customer) as number_of_customer
-FROM dqlab_sales_store
-WHERE order_status = 'order finished'
-GROUP BY years
-ORDER BY years ASC;
 
-https://renal-andhy.medium.com/project-data-analysis-for-retail-sales-performance-report-a6f064e4fb0f
+year(order_date) as years,
+
+COUNT(DISTINCT customer) as number_of_customer
+
+FROM dqlab_sales_store
+
+WHERE order_status = 'order finished'
+
+GROUP BY years
+
+ORDER BY years ASC;
 
